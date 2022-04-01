@@ -3,7 +3,7 @@ const readline = require('readline');
 const util = require('util');
 
 // Server Modules
-const InputHandler = require('./handlers/InputHandler');
+const InputProcessor = require('./handlers/InputProcessor');
 const ChoiceProcessor = require('./handlers/ChoiceProcessor');
 
 // readline interface
@@ -15,16 +15,11 @@ const question = util.promisify(rl.question).bind(rl);
 
 
 const choiceProcessor = new ChoiceProcessor();
-const inputHandler = new InputHandler();
-
-
-// let menus = inputHandler.getMenus()
-// console.log(menus)
-// console.log(inputHandler.getMenus("handlers"))
+const inputProcessor = new InputProcessor();
 
 async function main() {
 
-    let menuObjects = inputHandler.getMenus()
+    let menuObjects = inputProcessor.getMenus()
     let menu = "";
 
     for(let i = 0; i < menuObjects.length; i++) {
@@ -34,7 +29,6 @@ async function main() {
     try {
         const choice = await question(menu);
         choiceProcessor.process(choice, menuObjects);
-
 
         rl.close();
     } catch (error) {
