@@ -1,38 +1,45 @@
 // Core modules
 const readline = require('readline');
+const util = require('util');
 
 // Server Modules
-const InputProcessor = require('./handlers/InputProcessor');
+const InputHandler = require('./handlers/InputHandler');
+const ChoiceProcessor = require('./handlers/ChoiceProcessor');
 
 // readline interface
 const rl = readline.createInterface({
     input: process.stdin,
     output: process.stdout
 });
+const question = util.promisify(rl.question).bind(rl);
 
-const inputHandler = new InputProcessor();
 
-rl.question(inputHandler.getMenus(), (answer) => {
+const choiceProcessor = new ChoiceProcessor();
+const inputHandler = new InputHandler();
 
-    switch(answer){
-        case '1': // Check Status
-            // inputHandler.checkStatus()
-            break;
-        case '2': // Start a Fast
 
-            break;
-        case '3': // Stop an active Fast
+// let menus = inputHandler.getMenus()
+// console.log(menus)
+// console.log(inputHandler.getMenus("handlers"))
 
-            break;
-        case '4': // Update an active Fast
-            
-            break;
-        case '5': // List all Fasts
-            
-            break;
-        default:
-            
-            break;
+async function main() {
+
+    let menuObjects = inputHandler.getMenus()
+    let menu = "";
+
+    for(let i = 0; i < menuObjects.length; i++) {
+        menu += menuObjects[i].name;
     }
 
-})
+    try {
+        const choice = await question(menu);
+        choiceProcessor.process(choice, menuObjects);
+
+
+        rl.close();
+    } catch (error) {
+        console.log('Error: ', error);
+    }
+}
+
+main();
