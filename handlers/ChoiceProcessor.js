@@ -1,5 +1,6 @@
 const FastFactory = require('../models/FastFactory');
 const DatabaseConnection = require('../models/DatabaseConnection');
+const InputProcessor = require('./InputProcessor.js');
 
 class ChoiceProcessor { // strategy pattern
     constructor() {
@@ -36,6 +37,7 @@ class ChoiceProcessor { // strategy pattern
     checkStatusHandler() {
         let fastFactory = new FastFactory();
         let databaseConnection = new DatabaseConnection();
+
         fastFactory.createBulk()
             .then(fasts => {
                 fasts.forEach(fast => {
@@ -64,12 +66,10 @@ class ChoiceProcessor { // strategy pattern
         
                         }
                         else { // the fasting is still active
-        
                             console.log("You have an ongoing fast:")
                             console.log("Start time: ", new Date(fast.start).toString()) 
                             console.log("End time: ", new Date(fast.end).toString())
                             console.log(`Hours elapsed: ${(new Date(nowDateUTC).getHours())-(new Date(fast.start).getHours())}`)
-                            
                         }
                     } 
         
@@ -82,6 +82,44 @@ class ChoiceProcessor { // strategy pattern
 
     startFastingHandler() {
         console.log("Start Fasting Handler")
+        const inputProcessor = new InputProcessor();
+        let fastFactory = new FastFactory();
+        let databaseConnection = new DatabaseConnection();
+
+
+        inputProcessor.getDuration()
+            .then(duration => {
+                console.log("Duration: ", duration)
+                
+                    
+                const start = new Date();
+                const end = new Date();
+                end.setTime(end.getTime() + (duration *60*60*1000));
+
+                fastFactory.createBulk()
+                    .then(fasts => {
+                        let newFast = {
+                            start: start,
+                            duration: duration,
+                            end: end,
+                            active: true
+                        }
+                        fasts.push(newFast);
+                        databaseConnection.writeToDB(fasts)    
+                        console.log("Fasting started");
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+
+            })
+            .catch(error => {
+                console.log(error)
+            })
+
+
+        
+    
     }
 
     stopFastingHandler() {
@@ -94,7 +132,7 @@ class ChoiceProcessor { // strategy pattern
 
     listAllFastsHandler() {
         console.log("List all Fasts Handler")
-        // [] - list all fasts
+        // [x] - list all fasts
         let fastFactory = new FastFactory();
 
         fastFactory.createBulk()

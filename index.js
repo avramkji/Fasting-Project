@@ -30,11 +30,11 @@ async function main() {
 
             question(menu)
                 .then(choice => {
-                    console.log("getMenus in index: ")                    
+                    console.log("getMenus in index: ")
 
                     choiceProcessor.process(choice, menuObjects)
                     
-                    rl.close();
+                    // rl.close();
                 })
                 .catch(error => {
                     console.log(error)
@@ -46,3 +46,9 @@ async function main() {
 }
 
 main();
+
+
+module.exports = {
+    rl,
+    question
+}

@@ -3,6 +3,8 @@ const FastFactory = require('../models/FastFactory')
 
 class InputProcessor {
     constructor(){
+        this.rl = require('../index').rl;
+        this.question = require('../index').question;
 
         this.menus = [
             {
@@ -72,6 +74,18 @@ class InputProcessor {
                     reject(error)
                 })
             // console.log("fetchedFasts", fasts)
+        })
+    }
+
+    getDuration() {
+        return new Promise((resolve, reject) => {
+            this.rl.question("Enter duration of fasting (Example: 1): ", (answer) => {
+                if(answer.match(/^\d+$/)){
+                    console.log(answer)
+                    resolve(answer);
+                }
+                reject(null);
+            })
         })
     }
 
