@@ -3,15 +3,19 @@ const fs = require('fs');
 class DatabaseConnection {
     constructor(){}
 
-    // writeToDB(newState){
-    //     fs.writeFile('./db.json', JSON.stringify(newState), (error) => {
-    //         if(error){
-    //             console.log(error);
-    //             return null
-    //         }
-    //         return newState
-    //     })
-    // }
+    writeToDB(newState){
+        return new Promise((resolve, reject) => {
+
+            fs.writeFile('./core/db.json', JSON.stringify(newState), (error) => {
+                if(error){
+                    reject(error)
+                }
+                resolve(newState)
+            })
+
+        })
+
+    }
 
     readFromDB(){
 

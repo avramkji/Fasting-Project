@@ -15,7 +15,6 @@ class FastFactory {
         let fasts = []
         const dataBaseConnection = new DatabaseConnection() 
         return new Promise((resolve, reject) => {
-
             dataBaseConnection.readFromDB()
                 .then(data => {
                     // console.log("data", data)

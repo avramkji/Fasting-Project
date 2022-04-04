@@ -1,4 +1,5 @@
 const FastFactory = require('../models/FastFactory');
+const DatabaseConnection = require('../models/DatabaseConnection');
 
 class ChoiceProcessor { // strategy pattern
     constructor() {}
@@ -33,6 +34,7 @@ class ChoiceProcessor { // strategy pattern
 
     checkStatusHandler() {
         let fastFactory = new FastFactory();
+        let databaseConnection = new DatabaseConnection();
         fastFactory.createBulk()
             .then(fasts => {
                 fasts.forEach(fast => {
@@ -50,8 +52,14 @@ class ChoiceProcessor { // strategy pattern
         
                             console.log(`Hours spent in fasting: ${(new Date(fast.end).getHours())-(new Date(fast.start).getHours())}`)
         
-                            // [] - Update the values in the db
-                            
+                            // [x] - Update the values in the db
+                            databaseConnection.writeToDB(fasts)
+                                .then(data => {
+                                    // console.log("Successfully updated the database: ", data)
+                                })
+                                .catch(err => {
+                                    console.log("Error updating the database:", err)
+                                })
         
                         }
                         else { // the fasting is still active
