@@ -19,21 +19,46 @@ const inputProcessor = new InputProcessor();
 
 async function main() {
 
-    let menuObjects = inputProcessor.getMenus()
-    let menu = "";
+    inputProcessor.getMenus()
+        .then(menuObjects => {
+            console.log("menuObjects", menuObjects)
+            let menu = ""
 
-    for(let i = 0; i < menuObjects.length; i++) {
-        menu += menuObjects[i].name;
-    }
+            for(let i = 0; i < menuObjects.length; i++){
+                menu += menuObjects[i].name;
+            }
 
-    try {
-        const choice = await question(menu);
-        choiceProcessor.process(choice, menuObjects);
+            question(menu)
+                .then(choice => {
+                    console.log("getMenus in index: ")                    
 
-        rl.close();
-    } catch (error) {
-        console.log('Error: ', error);
-    }
+                    choiceProcessor.process(choice, menuObjects)
+                    
+                    rl.close();
+                })
+                .catch(error => {
+                    console.log(error)
+                })
+        })
+        .catch(error => {
+            console.log("getMenus error in index", error)
+        })
+
+    // let menuObjects = await inputProcessor.getMenus()
+    // let menu = "";
+
+    // for(let i = 0; i < menuObjects.length; i++) {
+    //     menu += menuObjects[i].name;
+    // }
+
+    // try {
+    //     const choice = await question(menu);
+    //     choiceProcessor.process(choice, menuObjects);
+
+    //     rl.close();
+    // } catch (error) {
+    //     console.log('Error: ', error);
+    // }
 }
 
 main();

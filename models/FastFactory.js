@@ -1,9 +1,10 @@
 // Custom Modules
 const Fast = require('./Fast.js')
-const data = require('../core/db.json')
+const DatabaseConnection = require('./DatabaseConnection.js')
 
 class FastFactory {
-    constructor(){}
+    constructor(){
+    }
 
     // Methods
     create(start, duration, end, active) {
@@ -11,13 +12,23 @@ class FastFactory {
     }
 
     createBulk() {
-        let fasts = [];
-        
-        for(let i = 0; i < data.length; i++){
-            fasts.push(this.create(data[i].start, data[i].duration, data[i].end, data[i].active));
-        }
+        let fasts = []
+        const dataBaseConnection = new DatabaseConnection() 
+        return new Promise((resolve, reject) => {
 
-        return fasts;
+            dataBaseConnection.readFromDB()
+                .then(data => {
+                    // console.log("data", data)
+                    for(let i = 0; i < data.length; i++){
+                        fasts.push(this.create(data[i].start, data[i].duration, data[i].end, data[i].active));
+                    }
+
+                    resolve(fasts)
+                })
+                .catch(err => {
+                    reject(err)
+                })
+        })
     }
     
 }
