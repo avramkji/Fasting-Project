@@ -43,22 +43,6 @@ async function main() {
         .catch(error => {
             console.log("getMenus error in index", error)
         })
-
-    // let menuObjects = await inputProcessor.getMenus()
-    // let menu = "";
-
-    // for(let i = 0; i < menuObjects.length; i++) {
-    //     menu += menuObjects[i].name;
-    // }
-
-    // try {
-    //     const choice = await question(menu);
-    //     choiceProcessor.process(choice, menuObjects);
-
-    //     rl.close();
-    // } catch (error) {
-    //     console.log('Error: ', error);
-    // }
 }
 
 main();

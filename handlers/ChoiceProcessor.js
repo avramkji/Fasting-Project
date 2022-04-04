@@ -2,7 +2,9 @@ const FastFactory = require('../models/FastFactory');
 const DatabaseConnection = require('../models/DatabaseConnection');
 
 class ChoiceProcessor { // strategy pattern
-    constructor() {}
+    constructor() {
+        // declare here FastFactory and DatabaseConnection?
+    }
 
     process(choice, menuObjects) {
 
@@ -10,7 +12,6 @@ class ChoiceProcessor { // strategy pattern
             console.log("Invalid option")
         } 
         else {
-            
             switch(menuObjects[choice - 1].handler) {
                 case 1:
                     this.checkStatusHandler();
@@ -93,6 +94,23 @@ class ChoiceProcessor { // strategy pattern
 
     listAllFastsHandler() {
         console.log("List all Fasts Handler")
+        // [] - list all fasts
+        let fastFactory = new FastFactory();
+
+        fastFactory.createBulk()
+            .then(fasts => {
+                console.log("Following is a detailed list of all fasts (past and present):\n")
+                if(fasts.length < 1) return console.log("You haven't fasted at all.")
+
+                fasts.forEach(fast => {
+                    console.log("Started at: ", new Date(fast.start).toString())
+                    console.log((fast.active ? "To end at: " : "Ended at: "), new Date(fast.end).toString())
+                    console.log("Duration of fast: ", fast.duration, "\n")
+                });
+            })
+            .catch(error => {
+                console.log(error)
+            })
     }
     
 
