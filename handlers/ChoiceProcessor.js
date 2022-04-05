@@ -116,14 +116,11 @@ class ChoiceProcessor { // strategy pattern
             .catch(error => {
                 console.log(error)
             })
-
-
-        
-    
     }
 
     stopFastingHandler() {
         console.log("Stop Fasting Handler")
+        
     }
 
     updateFastingHandler() {
@@ -143,7 +140,8 @@ class ChoiceProcessor { // strategy pattern
                 fasts.forEach(fast => {
                     console.log("Started at: ", new Date(fast.start).toString())
                     console.log((fast.active ? "To end at: " : "Ended at: "), new Date(fast.end).toString())
-                    console.log("Duration of fast: ", fast.duration, "\n")
+                    console.log("Duration of fast: ", fast.duration)
+                    console.log("Status: ", fast.active ? "Active" : "Done", "\n")
                 });
             })
             .catch(error => {
