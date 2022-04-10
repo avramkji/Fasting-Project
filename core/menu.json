@@ -1,0 +1,22 @@
+[
+	{
+		"name": "Check Status\n",
+		"handler": "1"
+	},
+	{
+		"name": "Start Fasting\n",
+		"handler": "2"
+	},
+	{
+		"name": "Stop Fasting\n",
+		"handler": "3"
+	},
+	{
+		"name": "Update Fasting\n",
+		"handler": "4"
+	},
+	{
+		"name": "List all Fasts\n",
+		"handler": "5"
+	}
+]
