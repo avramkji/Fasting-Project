@@ -2,6 +2,7 @@ const CheckStatusAction = require("./Check-Status-Action");
 const StartFastingAction = require("./Start-Fasting-Action");
 const StopFastingAction = require("./Stop-Fasting-Action");
 const ListAllFastsAction = require("./List-All-Fasts-Action");
+const UpdateFastingAction = require("./Update-Fasting-Action");
 
 class ActionSwitcher {
 	constructor() {}
@@ -18,8 +19,7 @@ class ActionSwitcher {
 				await new StopFastingAction().stopFastingAction();
 				break;
 			case "4":
-				// updateFastingAction();
-				console.log("updateFastingAction()");
+				await new UpdateFastingAction().updateFastingAction();
 				break;
 			case "5":
 				await new ListAllFastsAction().listAllFastsAction();

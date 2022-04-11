@@ -4,12 +4,6 @@ class Application {
 	constructor() {
 		new UserChoiceHandler().process()
 	}
-
-
-	// async start(){
-	// 	const userChoiceHandler = await new UserChoiceHandler
-	// 	userChoiceHandler.process()
-	// }
 }
 
 
