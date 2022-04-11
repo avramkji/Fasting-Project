@@ -75,15 +75,16 @@ class UpdateFastingAction {
               await new DataService().write(fasts);
 
               //   console.log("Your current fast has been updated: ", fast)
+              console.log("Your fast has been updated successfully.");
             }
           }
         } else {
-          console.log("Invalid input");
+          console.log("Invalid input. Start again.");
         }
       } else {
-        console.log("Invalid input");
+        console.log("Invalid input. Start again.");
       }
-    } else console.log("Invalid input");
+    } else console.log("Invalid input. Start again.");
     inputOutput.close();
   }
 }
